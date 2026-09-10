@@ -529,7 +529,7 @@ public function allowedCountries(Basket $basket, $allowedCountry): bool
         $this->getLogger(__METHOD__)->error(
             'googlepay_log',
             [
-                'merchantId_raw' => $settingsService->getPaymentSettingsValue('payment_active', 'novalnet_googlepay'),
+                'merchantId_raw' => $this->settingsService->getPaymentSettingsValue('payment_active', 'novalnet_googlepay'),
             ]
         );
 		
