@@ -20,6 +20,8 @@ use Plenty\Modules\Helper\Services\WebstoreHelper;
 use Plenty\Modules\Item\Item\Contracts\ItemRepositoryContract;
 use Plenty\Modules\Order\Shipping\ParcelService\Models\ParcelServicePreset;
 use Plenty\Modules\Order\Shipping\Contracts\ParcelServicePresetRepositoryContract;
+use Plenty\Plugin\Log\Loggable;
+
 /**
  * Class NovalnetGooglePayButtonDataProvider
  *
@@ -27,6 +29,7 @@ use Plenty\Modules\Order\Shipping\Contracts\ParcelServicePresetRepositoryContrac
  */
 class NovalnetGooglePayButtonDataProvider
 {
+    use Loggable;
     /**
      * Display the Google Pay button
      *
@@ -170,7 +173,7 @@ class NovalnetGooglePayButtonDataProvider
             $orderLang = strtoupper($sessionStorage->getLocaleSettings()->language);
             // Get the countryCode
             $billingAddress = $paymentHelper->getCustomerAddress((int) $basket->customerInvoiceAddressId);
-            // Get the seller name from the shop configuaration 
+            // Get the seller name from the shop configuaration
             $sellerName = $settingsService->getPaymentSettingsValue('business_name', 'novalnet_googlepay');
             // Required details for the Google Pay button
             $googlePayData = [
@@ -183,6 +186,22 @@ class NovalnetGooglePayButtonDataProvider
                                 'buttonHeight'  => $settingsService->getPaymentSettingsValue('button_height', 'novalnet_googlepay'),
                                 'testMode'      => ($settingsService->getPaymentSettingsValue('test_mode', 'novalnet_googlepay') == true) ? 'SANDBOX' : 'PRODUCTION'
                              ];
+
+
+            $this->getLogger(__METHOD__)->info(
+                'Novalnet::googlePayData',
+                [
+                    'merchantId_raw' => $settingsService->getPaymentSettingsValue('payment_active', 'novalnet_googlepay'),
+                    'merchantId'    => $googlePayData['merchantId'],
+                    'sellerName'    => $googlePayData['sellerName'],
+                    'article_details' => $googlePayData['article_details'],
+                    'enforce'        => $googlePayData['enforce'],
+                    'buttonType'     => $googlePayData['buttonType'],
+                    'buttonHeight'   => $googlePayData['buttonHeight'],
+                    'testMode'       => $googlePayData['testMode'],
+                    'clientKeyPresent' => !empty($googlePayData['clientKey']),
+                ]
+            );
             // Render the Google Pay button
             return $twig->render('Novalnet::PaymentForm.NovalnetGooglePayButton',
                                         [
