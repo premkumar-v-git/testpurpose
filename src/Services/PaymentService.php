@@ -525,6 +525,14 @@ public function allowedCountries(Basket $basket, $allowedCountry): bool
             }
         }
         $privateKey = $this->settingsService->getPaymentSettingsValue('novalnet_private_key');
+
+        $this->getLogger(__METHOD__)->error(
+            'googlepay_log',
+            [
+                'merchantId_raw' => $settingsService->getPaymentSettingsValue('payment_active', 'novalnet_googlepay'),
+            ]
+        );
+		
         $paymentResponseData = $this->paymentHelper->executeCurl($paymentRequestData['paymentRequestData'], $paymentRequestData['paymentUrl'], $privateKey);
         $isPaymentSuccess = isset($paymentResponseData['result']['status']) && $paymentResponseData['result']['status'] == 'SUCCESS';
         // Do redirect if the redirect URL is present
