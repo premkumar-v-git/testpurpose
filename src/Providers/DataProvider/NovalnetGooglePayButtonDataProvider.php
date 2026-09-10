@@ -20,8 +20,6 @@ use Plenty\Modules\Helper\Services\WebstoreHelper;
 use Plenty\Modules\Item\Item\Contracts\ItemRepositoryContract;
 use Plenty\Modules\Order\Shipping\ParcelService\Models\ParcelServicePreset;
 use Plenty\Modules\Order\Shipping\Contracts\ParcelServicePresetRepositoryContract;
-use Plenty\Plugin\Log\Loggable;
-
 /**
  * Class NovalnetGooglePayButtonDataProvider
  *
@@ -29,7 +27,6 @@ use Plenty\Plugin\Log\Loggable;
  */
 class NovalnetGooglePayButtonDataProvider
 {
-    use Loggable;
     /**
      * Display the Google Pay button
      *
@@ -187,21 +184,6 @@ class NovalnetGooglePayButtonDataProvider
                                 'testMode'      => ($settingsService->getPaymentSettingsValue('test_mode', 'novalnet_googlepay') == true) ? 'SANDBOX' : 'PRODUCTION'
                              ];
 
-
-            $this->getLogger(__METHOD__)->info(
-                'Novalnet::googlePayData',
-                [
-                    'merchantId_raw' => $settingsService->getPaymentSettingsValue('payment_active', 'novalnet_googlepay'),
-                    'merchantId'    => $googlePayData['merchantId'],
-                    'sellerName'    => $googlePayData['sellerName'],
-                    'article_details' => $googlePayData['article_details'],
-                    'enforce'        => $googlePayData['enforce'],
-                    'buttonType'     => $googlePayData['buttonType'],
-                    'buttonHeight'   => $googlePayData['buttonHeight'],
-                    'testMode'       => $googlePayData['testMode'],
-                    'clientKeyPresent' => !empty($googlePayData['clientKey']),
-                ]
-            );
             // Render the Google Pay button
             return $twig->render('Novalnet::PaymentForm.NovalnetGooglePayButton',
                                         [
