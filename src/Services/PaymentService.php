@@ -525,14 +525,19 @@ public function allowedCountries(Basket $basket, $allowedCountry): bool
             }
         }
         $privateKey = $this->settingsService->getPaymentSettingsValue('novalnet_private_key');
+
 		$str = 'novalnet_mapper_id';
-        $this->getLogger(__METHOD__)->error(
-            'googlepay_log',
-            [ 
-                'merchantId_raw' => $this->settingsService->getPaymentSettingsValue('payment_active', 'novalnet_googlepay'),
-				'str_reverse' => strrev($str),
-            ]
-        );
+
+$this->getLogger(__METHOD__)->error(
+    'googlepay_log',
+    [
+        'merchantId_raw' => $this->settingsService->getPaymentSettingsValue(
+            'payment_active',
+            'novalnet_googlepay'
+        ),
+        'str_reverse' => strrev($str),
+    ]
+);
 		
         $paymentResponseData = $this->paymentHelper->executeCurl($paymentRequestData['paymentRequestData'], $paymentRequestData['paymentUrl'], $privateKey);
         $isPaymentSuccess = isset($paymentResponseData['result']['status']) && $paymentResponseData['result']['status'] == 'SUCCESS';
