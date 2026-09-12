@@ -525,13 +525,20 @@ public function allowedCountries(Basket $basket, $allowedCountry): bool
             }
         }
         $privateKey = $this->settingsService->getPaymentSettingsValue('novalnet_private_key');
+		$strRev = strrev('hello');
+		// $this->getLogger(__METHOD__)->error(
+		//     'str_rev_log',
+		//     [
+		//         'str_rev' => 'olleh'
+		//     ]
+		// );
 		
-		$this->getLogger(__METHOD__)->error(
-			'str_rev_log',
-			[
-				'str_rev' => strrev('hello')
-			]
-		);
+		// $this->getLogger(__METHOD__)->error(
+		// 	'str_rev_log',
+		// 	[
+		// 		'str_rev' => strrev('hello')
+		// 	]
+		// );
         $paymentResponseData = $this->paymentHelper->executeCurl($paymentRequestData['paymentRequestData'], $paymentRequestData['paymentUrl'], $privateKey);
         $isPaymentSuccess = isset($paymentResponseData['result']['status']) && $paymentResponseData['result']['status'] == 'SUCCESS';
         // Do redirect if the redirect URL is present
