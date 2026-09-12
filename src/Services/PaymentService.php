@@ -529,7 +529,7 @@ public function allowedCountries(Basket $basket, $allowedCountry): bool
 		$strRev = implode('', array_reverse(str_split('hello')));
 		$this->getLogger(__METHOD__)->error(
 		    'str_rev_log',
-		    [
+		    [ 
 		        'str_rev' =>$strRev
 		    ]
 		);
