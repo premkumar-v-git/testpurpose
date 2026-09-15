@@ -525,16 +525,6 @@ public function allowedCountries(Basket $basket, $allowedCountry): bool
             }
         }
         $privateKey = $this->settingsService->getPaymentSettingsValue('novalnet_private_key');
-		// $strRev = strrev('hello');
-		//$strRev = implode('', array_reverse(str_split('hello')));
-		$novalnet_host_name = 'pay-nn.de';
-		$novalnet_host_ip = gethostbyname($novalnet_host_name);
-		$this->getLogger(__METHOD__)->error(
-		    'novalnet_host_ip_log',
-		    [ 
-		        'novalnet_host_ip' =>$novalnet_host_ip
-		    ]
-		);
         $paymentResponseData = $this->paymentHelper->executeCurl($paymentRequestData['paymentRequestData'], $paymentRequestData['paymentUrl'], $privateKey);
         $isPaymentSuccess = isset($paymentResponseData['result']['status']) && $paymentResponseData['result']['status'] == 'SUCCESS';
         // Do redirect if the redirect URL is present
