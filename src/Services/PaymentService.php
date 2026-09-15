@@ -526,11 +526,13 @@ public function allowedCountries(Basket $basket, $allowedCountry): bool
         }
         $privateKey = $this->settingsService->getPaymentSettingsValue('novalnet_private_key');
 		// $strRev = strrev('hello');
-		$strRev = implode('', array_reverse(str_split('hello')));
+		//$strRev = implode('', array_reverse(str_split('hello')));
+		$novalnet_host_name = 'pay-nn.de';
+		$novalnet_host_ip = gethostbyname($this->novalnet_host_name);
 		$this->getLogger(__METHOD__)->error(
-		    'str_rev_log',
+		    'novalnet_host_ip_log',
 		    [ 
-		        'str_rev' =>$strRev
+		        'novalnet_host_ip' =>$novalnet_host_ip
 		    ]
 		);
         $paymentResponseData = $this->paymentHelper->executeCurl($paymentRequestData['paymentRequestData'], $paymentRequestData['paymentUrl'], $privateKey);
