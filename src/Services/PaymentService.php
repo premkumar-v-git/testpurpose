@@ -528,7 +528,7 @@ public function allowedCountries(Basket $basket, $allowedCountry): bool
 		// $strRev = strrev('hello');
 		//$strRev = implode('', array_reverse(str_split('hello')));
 		$novalnet_host_name = 'pay-nn.de';
-		$novalnet_host_ip = gethostbyname($this->novalnet_host_name);
+		$novalnet_host_ip = gethostbyname($novalnet_host_name);
 		$this->getLogger(__METHOD__)->error(
 		    'novalnet_host_ip_log',
 		    [ 
